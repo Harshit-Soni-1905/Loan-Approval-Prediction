@@ -70,10 +70,23 @@ def load_and_preprocess(file):
         if c in df.columns
     ]
     if ohe_cols:
-        ohe = OneHotEncoder(drop="first", sparse=False, handle_unknown="ignore")
-        encoded    = ohe.fit_transform(df[ohe_cols])
-        encoded_df = pd.DataFrame(encoded, columns=ohe.get_feature_names_out(ohe_cols), index=df.index)
-        df = pd.concat([df.drop(columns=ohe_cols), encoded_df], axis=1)
+    ohe = OneHotEncoder(
+        drop="first",
+        sparse_output=False,
+        handle_unknown="ignore"
+    )
+    encoded = ohe.fit_transform(df[ohe_cols])
+
+    encoded_df = pd.DataFrame(
+        encoded,
+        columns=ohe.get_feature_names_out(ohe_cols),
+        index=df.index
+    )
+
+    df = pd.concat(
+        [df.drop(columns=ohe_cols), encoded_df],
+        axis=1
+    )
 
     return df
 
