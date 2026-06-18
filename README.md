@@ -2,7 +2,7 @@
 
 ## 📌 Overview
 
-CreditWise is an end-to-end supervised Machine Learning project designed to predict whether a loan application will be approved based on an applicant's financial, demographic, and credit-related information.
+CreditWise is an end-to-end supervised Machine Learning pipeline project designed to predict whether a loan application will be approved based on an applicant's financial, demographic, and credit-related information.
 
 The project follows a complete machine learning workflow, including data preprocessing, exploratory data analysis (EDA), feature engineering, model training, and performance evaluation. Multiple classification algorithms were implemented and compared to identify the most effective model for loan approval prediction.
 
