@@ -70,14 +70,20 @@ def load_and_preprocess(file):
         if c in df.columns
     ]
     if ohe_cols:
-        ohe = OneHotEncoder(drop="first", sparse_output=False, handle_unknown="ignore")
+        ohe = OneHotEncoder(drop="first", sparse=False, handle_unknown="ignore")
         encoded    = ohe.fit_transform(df[ohe_cols])
         encoded_df = pd.DataFrame(encoded, columns=ohe.get_feature_names_out(ohe_cols), index=df.index)
         df = pd.concat([df.drop(columns=ohe_cols), encoded_df], axis=1)
 
     return df
 
+
 df = load_and_preprocess(uploaded_file)
+
+if "Loan_Approved" not in df.columns:
+    st.error("Loan_Approved column not found in dataset.")
+    st.stop()
+
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs(["📊 EDA", "🔥 Correlation", "🤖 Model Training", "🔮 Predict"])
@@ -300,7 +306,15 @@ with tab4:
     inf_model, inf_scaler, inf_cols = get_best_model(df)
 
     # ── Build input form dynamically from numeric columns ─────────────────
-    numeric_input_cols = [c for c in inf_cols if df[c].nunique() > 2][:8]  # top 8 numeric
+    numeric_input_cols = []
+    for c in inf_cols:
+        if c in df.columns:
+            try:
+                if df[c].nunique() > 2:
+                    numeric_input_cols.append(c)
+            except Exception:
+                pass
+    numeric_input_cols = numeric_input_cols[:8]  # top 8 numeric
     binary_cols        = [c for c in inf_cols if c not in numeric_input_cols]
 
     with st.form("predict_form"):
@@ -335,7 +349,10 @@ with tab4:
         input_df = input_df.reindex(columns=inf_cols, fill_value=0)
         input_scaled = inf_scaler.transform(input_df)
         prediction   = inf_model.predict(input_scaled)[0]
-        proba        = inf_model.predict_proba(input_scaled)[0]
+        try:
+            proba = inf_model.predict_proba(input_scaled)[0]
+        except Exception:
+            proba = [0.5, 0.5]
 
         st.markdown("---")
         if prediction == 1:
