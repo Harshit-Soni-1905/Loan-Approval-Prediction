@@ -142,8 +142,7 @@ The project demonstrates the complete lifecycle of a supervised machine learning
 
 * Random Forest Classifier
 * XGBoost Classifier
-* Hyperparameter Optimization
-* Model Deployment using Streamlit
+* Hyperparameter Optimizationt
 * REST API using FastAPI
 * Real-Time Loan Approval Prediction Dashboard
 
