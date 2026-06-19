@@ -6,6 +6,8 @@ CreditWise is an end-to-end supervised Machine Learning pipeline project designe
 
 The project follows a complete machine learning workflow, including data preprocessing, exploratory data analysis (EDA), feature engineering, model training, and performance evaluation. Multiple classification algorithms were implemented and compared to identify the most effective model for loan approval prediction.
 
+Live Demo: https://loan-approval-prediction-ceyhuej7ecqghq4dgkltgu.streamlit.app/
+
 ---
 
 ## 🚀 Key Highlights
